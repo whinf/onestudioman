@@ -50,6 +50,9 @@ h2 { font-size: 1.25rem; margin: 2rem 0 .6rem; }
 
 .foot { margin-top: 3rem; border-top: 1px solid var(--border); background: var(--surface); color: var(--ink2); font-size: .88rem; }
 .foot .wrap { padding-top: 12px; padding-bottom: 20px; }
+.support { margin: 14px 0 0; }
+.donate { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 99px; background: var(--accent); color: var(--surface); text-decoration: none; font-weight: 600; line-height: 1.2; }
+.donate:hover, .donate:focus-visible { filter: brightness(1.1); }
 
 /* ---------- Escenario (siempre de noche: es la «ventana del juego») ---------- */
 .stage {

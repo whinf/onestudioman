@@ -64,6 +64,7 @@ T = {
         "links_lede": "Elige tu portal:",
         "go": "Ir ›", "join": "Unirse ›",
         "foot_sites": "Otros proyectos del autor:",
+        "donate": "Apoya el proyecto",
         "hv": "Hora Verda (precio de la luz)", "cer": "Cerdanyola Avui",
         "credits": "Efecto de orbe: «Arcane Magic Effect» de Cethiel (OpenGameArt, CC0). Personajes y logotipo: © One Studio Man.",
         "privacy": "Esta página no usa cookies ni analítica.",
@@ -100,6 +101,7 @@ T = {
         "links_lede": "Tria el teu portal:",
         "go": "Vés-hi ›", "join": "Uneix-t'hi ›",
         "foot_sites": "Altres projectes de l'autor:",
+        "donate": "Dona suport al projecte",
         "hv": "Hora Verda (preu de la llum)", "cer": "Cerdanyola Avui",
         "credits": "Efecte d'orbe: «Arcane Magic Effect» de Cethiel (OpenGameArt, CC0). Personatges i logotip: © One Studio Man.",
         "privacy": "Aquesta pàgina no fa servir galetes ni analítica.",
@@ -136,6 +138,7 @@ T = {
         "links_lede": "Choose your portal:",
         "go": "Go ›", "join": "Join ›",
         "foot_sites": "Other projects by the author:",
+        "donate": "Support the project",
         "hv": "Hora Verda (electricity price)", "cer": "Cerdanyola Avui",
         "credits": "Orb effect: “Arcane Magic Effect” by Cethiel (OpenGameArt, CC0). Characters and logo: © One Studio Man.",
         "privacy": "This page uses no cookies and no analytics.",
@@ -218,6 +221,7 @@ def page(lang):
 <footer class="foot"><div class="wrap">
 <p>{e(t['foot_sites'])} <a href="https://horaverda.es/{lang}/">{e(t['hv'])}</a> · <a href="https://cerdanyola.horaverda.es/{lang}/">{e(t['cer'])}</a></p>
 <p>{e(t['credits'])} {e(t['privacy'])}</p>
+<p class="support"><a class="donate" href="https://ko-fi.com/onestudioman" rel="noopener"><span aria-hidden="true">♥</span> {e(t['donate'])}</a></p>
 </div></footer>
 </body>
 </html>
