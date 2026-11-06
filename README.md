@@ -8,3 +8,6 @@ Página «sobre mí» de One Studio Man en https://onestudioman.horaverda.es (es
 - Publicación: cada push a `main` despliega con GitHub Pages (Actions).
 
 Efecto de orbe: «Arcane Magic Effect» de Cethiel, OpenGameArt, CC0.
+
+## Diseño
+- El marco común (`static/base.css`, `static/ui.js`, `static/fonts/`, `src/icons.py`) se sincroniza desde `llum-hores` con `python ..\tools\sync_base.py`; no se edita aquí. El acento morado y el escenario están en `static/site.css`; el generador sirve un solo `static/style.css`. El punto de corte de 600 px del escenario está en `site.css` y en `stage.js` a la vez.

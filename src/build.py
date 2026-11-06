@@ -6,12 +6,23 @@ import html
 import shutil
 from pathlib import Path
 
+import icons
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "_site"
 SITE = "https://onestudioman.horaverda.es"
 LANGS = ["es", "ca", "en"]
 LANG_NAMES = {"es": "Español", "ca": "Català", "en": "English"}
 LOCALES = {"es": "es_ES", "ca": "ca_ES", "en": "en_GB"}
+DO_ICONS = ["gamepad-2", "wand-sparkles", "clapperboard", "message-circle"]  # uno por tile de "do"
+THEME = {"es": ("Tema: automático", "Tema: claro", "Tema: oscuro"),
+         "ca": ("Tema: automàtic", "Tema: clar", "Tema: fosc"),
+         "en": ("Theme: auto", "Theme: light", "Theme: dark")}
+# Aplica el tema guardado antes de pintar (evita el parpadeo); sin JS rige el tema del sistema.
+THEME_SCRIPT = ('<script>(function(){try{var t=localStorage.getItem("theme");'
+                'if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}})()</script>')
+THEME_COLOR = ('<meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)">\n'
+               '<meta name="theme-color" content="#1c1c1a" media="(prefers-color-scheme: dark)">')
 
 # Iconos simplificados (24x24, color de texto)
 ICONS = {
@@ -36,7 +47,7 @@ T = {
         "title": "One Studio Man · Estudio de videojuegos de una sola persona",
         "desc": "One Studio Man es un estudio indie de una sola persona: videojuegos, personajes, sprites, vídeos y más. Sígueme en YouTube, Discord, Instagram, TikTok y Facebook.",
         "skip": "Saltar al contenido", "lang": "Idioma",
-        "sister": "⚡ Del mismo autor: Hora Verda, el precio de la luz por horas",
+        "sister": "Del mismo autor: Hora Verda, el precio de la luz por horas",
         "hint": "Toca al mago para lanzar otro hechizo",
         "hero_label": "Personaje de One Studio Man: pulsa para lanzar un hechizo",
         "dialog": [
@@ -55,10 +66,10 @@ T = {
         "alt_avatar": "Retrato del personaje de One Studio Man con un hechizo de cristales morados",
         "do_h": "Qué encontrarás",
         "do": [
-            ("🎮 Videojuegos", "Juegos indie de principio a fin, hechos por una sola persona."),
-            ("🧙 Personajes y sprites", "Diseño de personajes, animaciones y arte para juegos."),
-            ("🎬 Vídeos y devlogs", "El proceso de creación, avances y pruebas."),
-            ("💬 Comunidad", "Ideas, pruebas de juego y charla en Discord."),
+            ("Videojuegos", "Juegos indie de principio a fin, hechos por una sola persona."),
+            ("Personajes y sprites", "Diseño de personajes, animaciones y arte para juegos."),
+            ("Vídeos y devlogs", "El proceso de creación, avances y pruebas."),
+            ("Comunidad", "Ideas, pruebas de juego y charla en Discord."),
         ],
         "links_h": "Sígueme",
         "links_lede": "Elige tu portal:",
@@ -73,7 +84,7 @@ T = {
         "title": "One Studio Man · Estudi de videojocs d'una sola persona",
         "desc": "One Studio Man és un estudi indie d'una sola persona: videojocs, personatges, sprites, vídeos i més. Segueix-me a YouTube, Discord, Instagram, TikTok i Facebook.",
         "skip": "Salta al contingut", "lang": "Idioma",
-        "sister": "⚡ Del mateix autor: Hora Verda, el preu de la llum per hores",
+        "sister": "Del mateix autor: Hora Verda, el preu de la llum per hores",
         "hint": "Toca el mag per llançar un altre encanteri",
         "hero_label": "Personatge de One Studio Man: prem per llançar un encanteri",
         "dialog": [
@@ -92,10 +103,10 @@ T = {
         "alt_avatar": "Retrat del personatge de One Studio Man amb un encanteri de cristalls morats",
         "do_h": "Què hi trobaràs",
         "do": [
-            ("🎮 Videojocs", "Jocs indie de principi a fi, fets per una sola persona."),
-            ("🧙 Personatges i sprites", "Disseny de personatges, animacions i art per a jocs."),
-            ("🎬 Vídeos i devlogs", "El procés de creació, avenços i proves."),
-            ("💬 Comunitat", "Idees, proves de joc i xerrada a Discord."),
+            ("Videojocs", "Jocs indie de principi a fi, fets per una sola persona."),
+            ("Personatges i sprites", "Disseny de personatges, animacions i art per a jocs."),
+            ("Vídeos i devlogs", "El procés de creació, avenços i proves."),
+            ("Comunitat", "Idees, proves de joc i xerrada a Discord."),
         ],
         "links_h": "Segueix-me",
         "links_lede": "Tria el teu portal:",
@@ -110,7 +121,7 @@ T = {
         "title": "One Studio Man · A one-person game studio",
         "desc": "One Studio Man is a one-person indie studio: video games, characters, sprites, videos and more. Follow along on YouTube, Discord, Instagram, TikTok and Facebook.",
         "skip": "Skip to content", "lang": "Language",
-        "sister": "⚡ Same author: Hora Verda, Spain's hourly electricity price",
+        "sister": "Same author: Hora Verda, Spain's hourly electricity price",
         "hint": "Tap the mage to cast another spell",
         "hero_label": "One Studio Man character: press to cast a spell",
         "dialog": [
@@ -129,10 +140,10 @@ T = {
         "alt_avatar": "Portrait of the One Studio Man character casting a purple crystal spell",
         "do_h": "What you'll find",
         "do": [
-            ("🎮 Video games", "Indie games from start to finish, made by one person."),
-            ("🧙 Characters & sprites", "Character design, animation and game art."),
-            ("🎬 Videos & devlogs", "The making-of, progress and experiments."),
-            ("💬 Community", "Ideas, playtests and chat on Discord."),
+            ("Video games", "Indie games from start to finish, made by one person."),
+            ("Characters & sprites", "Character design, animation and game art."),
+            ("Videos & devlogs", "The making-of, progress and experiments."),
+            ("Community", "Ideas, playtests and chat on Discord."),
         ],
         "links_h": "Follow me",
         "links_lede": "Choose your portal:",
@@ -157,7 +168,7 @@ def head(lang, t, url):
 <html lang="{lang}">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{e(t['title'])}</title>
 <meta name="description" content="{e(t['desc'])}">
 <link rel="canonical" href="{url}">
@@ -167,16 +178,22 @@ def head(lang, t, url):
 <meta property="og:description" content="{e(t['desc'])}">
 <meta property="og:url" content="{url}">
 <meta property="og:image" content="{SITE}/static/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="{LOCALES[lang]}">
 <meta property="og:site_name" content="One Studio Man">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#120d24">
+{THEME_COLOR}
 <link rel="icon" href="/static/img/icon-64.png" type="image/png">
 <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
+<link rel="manifest" href="/static/manifest.webmanifest">
+<link rel="preload" href="/static/fonts/inter-latin.var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/static/img/walk.webp" as="image">
+{THEME_SCRIPT}
 <link rel="stylesheet" href="/static/style.css">
 <script type="application/ld+json">{{"@context": "https://schema.org", "@type": "Organization", "name": "One Studio Man", "url": "{SITE}/", "logo": "{SITE}/static/img/logo.webp", "description": "{e(t['desc'])}", "sameAs": [{", ".join(f'"{n[2]}"' for n in NETWORKS)}]}}</script>
 <script src="/static/stage.js" defer></script>
+<script src="/static/ui.js" defer></script>
 </head>"""
 
 
@@ -184,24 +201,38 @@ def page(lang):
     t = T[lang]
     e = html.escape
     url = f"{SITE}/{lang}/"
-    langs = " · ".join(
-        f'<a href="/{l}/" hreflang="{l}" lang="{l}"' + (' aria-current="true"' if l == lang else "") + f">{LANG_NAMES[l]}</a>"
+    used = set()
+    i = lambda name, cls="i": icons.icon(used, name, None, cls)  # noqa: E731
+    langs = "".join(
+        f'<a href="/{l}/" hreflang="{l}" lang="{l}"' + (' aria-current="true"' if l == lang else "")
+        + f'><span class="lg-long">{LANG_NAMES[l]}</span><span class="lg-short" aria-hidden="true">{l}</span></a>'
         for l in LANGS)
+    auto, light, dark = (e(x) for x in THEME[lang])
+    theme = (f'<span class="theme-slot"><button class="theme" type="button" hidden data-theme-toggle '
+             f'data-auto="{auto}" data-light="{light}" data-dark="{dark}" aria-label="{auto}">'
+             f'{i("monitor", "i i-auto")}{i("sun", "i i-light")}{i("moon", "i i-dark")}</button></span>')
     dialog = "".join(f"<p>{e(s)}</p>" for s in t["dialog"])
-    tiles = "".join(f'<div class="tile"><span class="k">{e(k)}</span><span class="u">{e(u)}</span></div>' for k, u in t["do"])
+    tiles = "".join(f'<div class="tile"><span class="k">{i(ic)} {e(k)}</span><span class="u">{e(u)}</span></div>'
+                    for (k, u), ic in zip(t["do"], DO_ICONS))
     links = "".join(
         f'<li><a href="{u}" rel="me noopener" style="--c:{c}"><svg viewBox="0 0 24 24" aria-hidden="true">{ICONS[i]}</svg>'
         f'<span class="net">{n}</span><span class="h">{e(h)}</span>'
         f'<span class="go">{t["join"] if i == "discord" else t["go"]}</span></a></li>'
         for i, n, u, h, c in NETWORKS)
     about = "".join(f"<p>{p}</p>" for p in t["about"])
+    sister = f'<a class="sister" href="https://horaverda.es/{lang}/">{i("zap")} {e(t["sister"])}</a>'
+    donate = f'<a class="donate" href="https://ko-fi.com/onestudioman" rel="noopener">{i("heart")} {e(t["donate"])}</a>'
+    sprite = icons.sprite(used)
     return f"""{head(lang, t, url)}
 <body>
+{sprite}
 <a class="skip" href="#main">{e(t['skip'])}</a>
 <header class="top"><div class="wrap">
 <a class="brand" href="/{lang}/"><img src="/static/img/icon-64.png" alt="" width="28" height="28"> One Studio Man</a>
 <nav class="langs" aria-label="{e(t['lang'])}">{langs}</nav>
-</div><div class="wrap sister-bar"><a class="sister" href="https://horaverda.es/{lang}/">{e(t['sister'])}</a></div></header>
+{theme}
+</div></header>
+<div class="wrap promo">{sister}</div>
 <main id="main" class="wrap">
 <div class="stage">
 <div class="stars"></div><div class="ground"></div>
@@ -221,7 +252,7 @@ def page(lang):
 <footer class="foot"><div class="wrap">
 <p>{e(t['foot_sites'])} <a href="https://horaverda.es/{lang}/">{e(t['hv'])}</a> · <a href="https://cerdanyola.horaverda.es/{lang}/">{e(t['cer'])}</a></p>
 <p>{e(t['credits'])} {e(t['privacy'])}</p>
-<p class="support"><a class="donate" href="https://ko-fi.com/onestudioman" rel="noopener"><span aria-hidden="true">♥</span> {e(t['donate'])}</a></p>
+<p class="support">{donate}</p>
 </div></footer>
 </body>
 </html>
@@ -234,12 +265,14 @@ def root():
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>One Studio Man</title>
 <meta name="description" content="{html.escape(T['es']['desc'])}">
 <link rel="canonical" href="{SITE}/">
 {alternates()}
+{THEME_COLOR}
 <link rel="icon" href="/static/img/icon-64.png" type="image/png">
+{THEME_SCRIPT}
 <link rel="stylesheet" href="/static/style.css">
 <script>
 (function(){{var m={{ca:"ca",es:"es",gl:"es",eu:"es",en:"en"}};var l=(navigator.languages||[navigator.language||"es"]);
@@ -256,6 +289,11 @@ def main():
     if OUT.exists():
         shutil.rmtree(OUT)
     shutil.copytree(ROOT / "static", OUT / "static")
+    # Un solo style.css servido = base.css (marco común, sincronizado desde llum-hores) + site.css (propio)
+    static = OUT / "static"
+    (static / "style.css").write_text("\n".join((static / f).read_text("utf-8") for f in ("base.css", "site.css")), "utf-8")
+    for f in ("base.css", "site.css"):
+        (static / f).unlink()
     for l in LANGS:
         (OUT / l).mkdir(parents=True)
         (OUT / l / "index.html").write_text(page(l), encoding="utf-8")

@@ -32,6 +32,11 @@ logo = Image.open(SRC / "OSM_logo.png").convert("RGBA")
 logo.resize((360, 360), Image.LANCZOS).save(OUT / "logo.webp", "WEBP", quality=90, method=6)
 logo.resize((64, 64), Image.LANCZOS).save(OUT / "icon-64.png", optimize=True)
 logo.resize((180, 180), Image.LANCZOS).save(OUT / "apple-touch-icon.png", optimize=True)
+for size in (192, 512):  # iconos del manifest (PWA); "maskable": el logo ocupa el 80 % centrado sobre fondo noche
+    icon = Image.new("RGBA", (size, size), (16, 12, 30, 255))
+    inner = logo.resize((round(size * 0.8), round(size * 0.8)), Image.LANCZOS)
+    icon.alpha_composite(inner, (round(size * 0.1), round(size * 0.1)))
+    icon.save(OUT / f"icon-{size}.png", optimize=True)
 
 av = Image.open(SRC / "OMSavatar.png").convert("RGB")
 av.resize((480, round(480 * av.height / av.width)), Image.LANCZOS).save(OUT / "avatar.webp", "WEBP", quality=84, method=6)
