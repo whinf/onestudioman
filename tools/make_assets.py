@@ -5,7 +5,7 @@ py tools/make_assets.py
 from pathlib import Path
 from PIL import Image
 
-SRC = Path(r"D:\One Man Studio\img")
+SRC = Path(r"D:\OneStudioMan\img")
 FX = Path(r"M:\assets\biblioteca\effects\Arcane_Effect-e7d0f643\06")  # CC0, Cethiel (OpenGameArt)
 OUT = Path(__file__).resolve().parent.parent / "static" / "img"
 OUT.mkdir(parents=True, exist_ok=True)
@@ -44,7 +44,8 @@ av.resize((480, round(480 * av.height / av.width)), Image.LANCZOS).save(OUT / "a
 og = Image.new("RGB", (1200, 630), (16, 12, 30))
 a = av.resize((504, 630), Image.LANCZOS)
 og.paste(a, (696, 0))
-og.paste(logo.resize((460, 460), Image.LANCZOS), (130, 85), logo.resize((460, 460), Image.LANCZOS))
+big = logo.resize((460, 460), Image.LANCZOS)
+og.paste(big, (130, 85), big)
 og.save(OUT / "og.jpg", quality=86, optimize=True)
 
 frames = [Image.open(FX / f"Arcane_Effect_{i}.png").convert("RGBA") for i in range(1, 8)]

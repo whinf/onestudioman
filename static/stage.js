@@ -16,6 +16,7 @@
   function cast() {
     clearInterval(timer);
     hero.classList.add("casting");
+    if (still) { show(7); if (mp) mp.style.setProperty("--mp", "100%"); return; }
     var i = 0, loop = 0;
     if (mp) mp.style.setProperty("--mp", "35%");
     timer = setInterval(function () {

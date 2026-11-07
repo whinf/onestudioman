@@ -3,6 +3,7 @@
 py src/build.py
 """
 import html
+import json
 import shutil
 from pathlib import Path
 
@@ -27,7 +28,7 @@ THEME_COLOR = ('<meta name="theme-color" content="#fcfcfb" media="(prefers-color
 # Iconos simplificados (24x24, color de texto)
 ICONS = {
     "instagram": '<rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/>',
-    "youtube": '<rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="M10 9v6l5-3z" fill="#c4302b"/>',
+    "youtube": '<rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="M10 9v6l5-3z" fill="var(--c)"/>',
     "discord": '<path d="M5 6.5c2-1.3 4-1.8 4-1.8l.6 1.2a14 14 0 0 1 4.8 0l.6-1.2s2 .5 4 1.8c1.6 2.6 2.4 5.6 2.2 9.2-1.6 1.3-3.3 2-4.9 2.3l-1-1.6c-2.8.8-5.8.8-8.6 0l-1 1.6c-1.6-.3-3.3-1-4.9-2.3-.2-3.6.6-6.6 2.2-9.2z" fill="currentColor"/><circle cx="9" cy="12.5" r="1.6" fill="#5865f2"/><circle cx="15" cy="12.5" r="1.6" fill="#5865f2"/>',
     "facebook": '<path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z" fill="currentColor"/>',
     "tiktok": '<path d="M14 3h3c.2 2 1.6 3.6 3.6 3.8v3a7 7 0 0 1-3.6-1.1V15a6 6 0 1 1-6-6v3.1a3 3 0 1 0 3 2.9z" fill="currentColor"/>',
@@ -55,13 +56,13 @@ T = {
             "Aquí un solo creador hace de programador, artista, músico y narrador.",
             "Si te gustan los videojuegos hechos con cariño, acompáñame más abajo. ▼",
         ],
-        "more": "Clic para seguir",
+        "more": "Toca para seguir",
         "h1": "One Studio Man",
         "lede": "Un estudio de una sola persona: videojuegos, arte y más.",
         "about_h": "Sobre mí",
         "about": [
-            "Soy el creador detrás de <strong>One Studio Man</strong>, un estudio independiente donde una sola persona hace todo el viaje: desde la primera idea hasta el último píxel.",
-            "Diseño juegos, dibujo personajes y sprites como los de esta página, y comparto el proceso de creación en vídeos y en la comunidad. Además de videojuegos, también hago otros proyectos digitales, como esta misma web.",
+            "Soy Oriol, desarrollador indie autodidacta de Cerdanyola del Vallès y la única persona detrás de <strong>One Studio Man</strong>.",
+            "Vengo de una trayectoria muy variada, desde la hostelería y la logística hasta la edición de manga y la moderación de grandes comunidades, y hoy me dedico a tiempo completo a crear juegos, webs, música y vídeo con ayuda de la IA.",
         ],
         "alt_avatar": "Retrato del personaje de One Studio Man con un hechizo de cristales morados",
         "do_h": "Qué encontrarás",
@@ -90,15 +91,15 @@ T = {
         "dialog": [
             "Hola, viatger! Benvingut a One Studio Man.",
             "Aquí un sol creador fa de programador, artista, músic i narrador.",
-            "Si t'agraden els videojocs fets amb estima, acompanya'm més avall. ▼",
+            "Si t'agraden els videojocs fets amb cura, acompanya'm més avall. ▼",
         ],
-        "more": "Clic per continuar",
+        "more": "Toca per continuar",
         "h1": "One Studio Man",
         "lede": "Un estudi d'una sola persona: videojocs, art i més.",
         "about_h": "Sobre mi",
         "about": [
-            "Soc el creador darrere de <strong>One Studio Man</strong>, un estudi independent on una sola persona fa tot el viatge: des de la primera idea fins a l'últim píxel.",
-            "Dissenyo jocs, dibuixo personatges i sprites com els d'aquesta pàgina, i comparteixo el procés de creació en vídeos i a la comunitat. A més de videojocs, també faig altres projectes digitals, com aquesta mateixa web.",
+            "Soc l'Oriol, desenvolupador indie autodidacte de Cerdanyola del Vallès i l'única persona darrere de <strong>One Studio Man</strong>.",
+            "Vinc d'una trajectòria molt variada, des de l'hostaleria i la logística fins a l'edició de manga i la moderació de grans comunitats, i avui em dedico a temps complet a crear jocs, webs, música i vídeo amb l'ajuda de la IA.",
         ],
         "alt_avatar": "Retrat del personatge de One Studio Man amb un encanteri de cristalls morats",
         "do_h": "Què hi trobaràs",
@@ -106,7 +107,7 @@ T = {
             ("Videojocs", "Jocs indie de principi a fi, fets per una sola persona."),
             ("Personatges i sprites", "Disseny de personatges, animacions i art per a jocs."),
             ("Vídeos i devlogs", "El procés de creació, avenços i proves."),
-            ("Comunitat", "Idees, proves de joc i xerrada a Discord."),
+            ("Comunitat", "Idees, proves de joc i conversa a Discord."),
         ],
         "links_h": "Segueix-me",
         "links_lede": "Tria el teu portal:",
@@ -121,7 +122,7 @@ T = {
         "title": "One Studio Man · A one-person game studio",
         "desc": "One Studio Man is a one-person indie studio: video games, characters, sprites, videos and more. Follow along on YouTube, Discord, Instagram, TikTok and Facebook.",
         "skip": "Skip to content", "lang": "Language",
-        "sister": "Same author: Hora Verda, Spain's hourly electricity price",
+        "sister": "By the same author: Hora Verda, Spain's hourly electricity price",
         "hint": "Tap the mage to cast another spell",
         "hero_label": "One Studio Man character: press to cast a spell",
         "dialog": [
@@ -129,13 +130,13 @@ T = {
             "Here a single creator is the programmer, artist, musician and storyteller.",
             "If you like games made with care, follow me down below. ▼",
         ],
-        "more": "Click to continue",
+        "more": "Tap to continue",
         "h1": "One Studio Man",
         "lede": "A one-person studio: video games, art and more.",
         "about_h": "About me",
         "about": [
-            "I'm the creator behind <strong>One Studio Man</strong>, an independent studio where one person makes the whole journey: from the first idea to the last pixel.",
-            "I design games, draw characters and sprites like the ones on this page, and share the making-of in videos and with the community. Besides games, I also build other digital projects, like this very website.",
+            "I'm Oriol, a self-taught indie developer from Cerdanyola del Vallès and the only person behind <strong>One Studio Man</strong>.",
+            "My background is a varied one, from hospitality and logistics to manga editing and moderating large online communities, and today I work full time making games, websites, music and video with the help of AI.",
         ],
         "alt_avatar": "Portrait of the One Studio Man character casting a purple crystal spell",
         "do_h": "What you'll find",
@@ -164,6 +165,9 @@ def alternates():
 
 def head(lang, t, url):
     e = html.escape
+    ldjson = json.dumps({"@context": "https://schema.org", "@type": "Organization", "name": "One Studio Man",
+                         "url": f"{SITE}/", "logo": f"{SITE}/static/img/logo.webp", "description": t["desc"],
+                         "sameAs": [n[2] for n in NETWORKS]}, ensure_ascii=False).replace("<", "\u003c")
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
@@ -189,9 +193,10 @@ def head(lang, t, url):
 <link rel="manifest" href="/static/manifest.webmanifest">
 <link rel="preload" href="/static/fonts/inter-latin.var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/static/img/walk.webp" as="image">
+<link rel="preload" href="/static/img/cast.webp" as="image">
 {THEME_SCRIPT}
 <link rel="stylesheet" href="/static/style.css">
-<script type="application/ld+json">{{"@context": "https://schema.org", "@type": "Organization", "name": "One Studio Man", "url": "{SITE}/", "logo": "{SITE}/static/img/logo.webp", "description": "{e(t['desc'])}", "sameAs": [{", ".join(f'"{n[2]}"' for n in NETWORKS)}]}}</script>
+<script type="application/ld+json">{ldjson}</script>
 <script src="/static/stage.js" defer></script>
 <script src="/static/ui.js" defer></script>
 </head>"""
@@ -240,7 +245,7 @@ def page(lang):
 <img class="logo" src="/static/img/logo.webp" alt="One Studio Man" width="210" height="210">
 <button class="hero" type="button" aria-label="{e(t['hero_label'])}"></button>
 </div>
-<div class="dialog" aria-live="polite" title="{e(t['more'])}"><img src="/static/img/avatar.webp" alt="" width="62" height="62"><span class="who">One Studio Man</span>{dialog}<span class="next" aria-hidden="true">▼</span></div>
+<div class="dialog" aria-live="polite" role="button" aria-label="{e(t['more'])}"><img src="/static/img/avatar.webp" alt="" width="62" height="62"><span class="who">One Studio Man</span>{dialog}<span class="next" aria-hidden="true">▼</span></div>
 <h1>{e(t['h1'])}</h1>
 <p class="lede">{e(t['lede'])}</p>
 <section><h2>{e(t['about_h'])}</h2>

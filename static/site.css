@@ -1,14 +1,13 @@
 /* site.css — reglas propias de One Studio Man (acento morado + escenario de juego). Se concatena tras base.css. */
 @layer site {
-  /* Tokens propios: acento morado y dorado (con respaldo hex) */
-  :root { --accent: #5b3fd1; --accent-ink: #ffffff; --gold: #b07a06; --stage-1: #0e0b1f; --stage-2: #1b1338; --stage-3: #120d24; --glow: #6d55e8; --lilac: #cfc6ff; --star: #f5c542; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --accent: #a993ff; --accent-ink: #1a1040; --gold: #f5c542; } }
-  :root[data-theme="dark"] { --accent: #a993ff; --accent-ink: #1a1040; --gold: #f5c542; }
+  /* Tokens propios: acento morado (con respaldo hex) */
+  :root { --accent: #5b3fd1; --accent-ink: #ffffff; --stage-1: #0e0b1f; --stage-2: #1b1338; --stage-3: #120d24; --glow: #6d55e8; --lilac: #cfc6ff; --star: #f5c542; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --accent: #a993ff; --accent-ink: #1a1040; } }
+  :root[data-theme="dark"] { --accent: #a993ff; --accent-ink: #1a1040; }
   @supports (color: light-dark(#000, #fff)) and (color: oklch(0% 0 0)) {
     :root {
       --accent: light-dark(oklch(48% .2 285), oklch(78% .14 290));
       --accent-ink: light-dark(oklch(100% 0 0), oklch(22% .08 290));
-      --gold: light-dark(oklch(62% .14 80), oklch(84% .16 90));
     }
   }
 
@@ -113,6 +112,6 @@
     .dialog img { inline-size: 44px; block-size: 44px; inset-inline-start: 12px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .logo, .stars::after, .dialog .next, .links a:hover::after { animation: none; }
+    .logo, .stars::after, .dialog .next, .links a:hover::after, .links a:focus-visible::after { animation: none; }
   }
 }
