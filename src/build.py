@@ -12,6 +12,7 @@ import icons
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "_site"
 SITE = "https://onestudioman.horaverda.es"
+VISITS_URL = "https://cerdanyola-board.chatcerdanyola.workers.dev/hit?site=osm"
 LANGS = ["es", "ca", "en"]
 LANG_NAMES = {"es": "Español", "ca": "Català", "en": "English"}
 LOCALES = {"es": "es_ES", "ca": "ca_ES", "en": "en_GB"}
@@ -77,9 +78,10 @@ T = {
         "go": "Ir ›", "join": "Unirse ›",
         "foot_sites": "Otros proyectos del autor:",
         "donate": "Apoya el proyecto",
+        "visits": "Visitas: {today} hoy · {total} en total",
         "hv": "Hora Verda (precio de la luz)", "cer": "Cerdanyola Avui",
         "credits": "Efecto de orbe: «Arcane Magic Effect» de Cethiel (OpenGameArt, CC0). Personajes y logotipo: © One Studio Man.",
-        "privacy": "Esta página no usa cookies ni analítica.",
+        "privacy": "Esta página no usa cookies ni analítica de seguimiento; el contador de visitas es anónimo y no guarda tu IP.",
     },
     "ca": {
         "title": "One Studio Man · Estudi de videojocs d'una sola persona",
@@ -114,9 +116,10 @@ T = {
         "go": "Vés-hi ›", "join": "Uneix-t'hi ›",
         "foot_sites": "Altres projectes de l'autor:",
         "donate": "Dona suport al projecte",
+        "visits": "Visites: {today} avui · {total} en total",
         "hv": "Hora Verda (preu de la llum)", "cer": "Cerdanyola Avui",
         "credits": "Efecte d'orbe: «Arcane Magic Effect» de Cethiel (OpenGameArt, CC0). Personatges i logotip: © One Studio Man.",
-        "privacy": "Aquesta pàgina no fa servir galetes ni analítica.",
+        "privacy": "Aquesta pàgina no fa servir galetes ni analítica de seguiment; el comptador de visites és anònim i no desa la teva IP.",
     },
     "en": {
         "title": "One Studio Man · A one-person game studio",
@@ -151,9 +154,10 @@ T = {
         "go": "Go ›", "join": "Join ›",
         "foot_sites": "Other projects by the author:",
         "donate": "Support the project",
+        "visits": "Visits: {today} today · {total} in total",
         "hv": "Hora Verda (electricity price)", "cer": "Cerdanyola Avui",
         "credits": "Orb effect: “Arcane Magic Effect” by Cethiel (OpenGameArt, CC0). Characters and logo: © One Studio Man.",
-        "privacy": "This page uses no cookies and no analytics.",
+        "privacy": "This page uses no cookies or tracking analytics; the visit counter is anonymous and does not store your IP.",
     },
 }
 
@@ -227,6 +231,7 @@ def page(lang):
     about = "".join(f"<p>{p}</p>" for p in t["about"])
     sister = f'<a class="sister" href="https://horaverda.es/{lang}/">{i("zap")} {e(t["sister"])}</a>'
     donate = f'<a class="donate" href="https://ko-fi.com/onestudioman" rel="noopener">{i("heart")} {e(t["donate"])}</a>'
+    visits = f'<p class="visits" data-visits="{VISITS_URL}" data-text="{e(t["visits"])}" hidden></p>'
     sprite = icons.sprite(used)
     return f"""{head(lang, t, url)}
 <body>
@@ -257,6 +262,7 @@ def page(lang):
 <footer class="foot"><div class="wrap">
 <p>{e(t['foot_sites'])} <a href="https://horaverda.es/{lang}/">{e(t['hv'])}</a> · <a href="https://cerdanyola.horaverda.es/{lang}/">{e(t['cer'])}</a></p>
 <p>{e(t['credits'])} {e(t['privacy'])}</p>
+{visits}
 <p class="support">{donate}</p>
 </div></footer>
 </body>
